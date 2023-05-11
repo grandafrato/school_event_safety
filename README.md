@@ -13,6 +13,28 @@ follow through the safety implications of it.
    the event to counter act them.
 5. The player repeats adding events until the target fun level is reached.
 
+## Building
+
+### Dependencies
+
+1. Install rust: https://www.rust-lang.org/tools/install/
+2. Install trunk: https://trunkrs.dev/
+3. Download Tailwindcss executable: https://github.com/tailwindlabs/tailwindcss/releases/
+
+### Build
+
+Rename the tailwind executable to tailwindcss:
+
+```
+mv tailwindcss-os-architecture tailwindcss
+```
+
+Build and serve with Trunk:
+
+```
+trunk serve
+```
+
 ## License
 
 MIT License, Copyright (c) 2023 Lachlan Wilger.
