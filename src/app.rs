@@ -1,3 +1,6 @@
+mod components;
+
+use components::*;
 use leptos::*;
 use leptos_router::*;
 
@@ -25,17 +28,10 @@ pub fn App(cx: Scope) -> impl IntoView {
 #[component]
 fn IndexView(cx: Scope) -> impl IntoView {
     view! { cx,
-        <div class="md:rounded-lg bg-[#845533] py-6 px-[10%] md:w-2/3 md:mx-auto
-    r                   md:mt-5 text-white min-h-screen md:min-h-fit">
-            <h1 class="text-center text-2xl font-bold mb-3">
-                "Building an Event, Safely"
-            </h1>
-            <A href="/game" class="bg-[#ffac44] text-black px-3 py-2.5 mx-auto
-                                   mt-3 mb-6 rounded-md w-32 block text-center
-                                   hover:bg-orange-400">
-                "Build Event"
-            </A>
-            <article class="prose prose-invert">
+        <ExpandingJumbotron>
+            <SiteHeader>"Building an Event, Safely"</SiteHeader>
+            <LinkButton href="/game">"Build Event"</LinkButton>
+            <Article>
                 <h2>"How The Simulation Works"</h2>
                 <h3>"Goal"</h3>
                 <p>"Your goal is to build an event for your school that is both
@@ -51,14 +47,16 @@ fn IndexView(cx: Scope) -> impl IntoView {
                     level, but each feature comes with its own risks. To
                     counteract the risk, you need to add various countermeasures
                     to ensure a safe, fun time for everyone."</p>
-            </article>
-        </div>
+            </Article>
+        </ExpandingJumbotron>
     }
 }
 
 #[component]
 fn GameView(cx: Scope) -> impl IntoView {
     view! { cx,
-        <h1>"Game, it is."</h1>
+        <ExpandingJumbotron>
+            <SiteHeader>"Game, it is."</SiteHeader>
+        </ExpandingJumbotron>
     }
 }
