@@ -14,8 +14,8 @@ pub fn ExpandingJumbotron(cx: Scope, children: Children) -> impl IntoView {
 #[component]
 pub fn LinkButton(cx: Scope, href: &'static str, children: Children) -> impl IntoView {
     view! { cx,
-        <A href=href class="bg-[#ffac44] text-black px-3 py-2.5 mx-auto mt-3
-                            mb-6 rounded-md w-32 block text-center
+        <A href=href class="bg-[#ffac44] text-black px-3 py-2.5 mx-auto my-3
+                            rounded-md w-32 block text-center
                             hover:bg-orange-400">
             {children(cx)}
         </A>
@@ -25,7 +25,7 @@ pub fn LinkButton(cx: Scope, href: &'static str, children: Children) -> impl Int
 #[component]
 pub fn SiteHeader(cx: Scope, children: Children) -> impl IntoView {
     view! { cx,
-        <h1 class="text-center text-2xl font-bold mb-3">
+        <h1 class="text-center text-2xl font-bold mb-6">
             {children(cx)}
         </h1>
     }

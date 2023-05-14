@@ -30,7 +30,6 @@ fn IndexView(cx: Scope) -> impl IntoView {
     view! { cx,
         <ExpandingJumbotron>
             <SiteHeader>"Building an Event, Safely"</SiteHeader>
-            <LinkButton href="/game">"Build Event"</LinkButton>
             <Article>
                 <h2>"How The Simulation Works"</h2>
                 <h3>"Goal"</h3>
@@ -48,6 +47,7 @@ fn IndexView(cx: Scope) -> impl IntoView {
                     counteract the risk, you need to add various countermeasures
                     to ensure a safe, fun time for everyone."</p>
             </Article>
+            <LinkButton href="/game">"Build Event"</LinkButton>
         </ExpandingJumbotron>
     }
 }
