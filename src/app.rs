@@ -18,8 +18,13 @@ pub fn App(cx: Scope) -> impl IntoView {
                     }/>
                 </Routes>
             </Router>
-            <footer class="fixed mt-auto bottom-0 left-0 opacity-75 text-xs">
+            <footer class="flex justify-between w-full px-2 pb-0.5 mt-auto fixed
+                           bottom-0 left-0 opacity-75 text-xs">
                 <p>"Copyright © 2023 Lachlan Wilger."</p>
+                <a class="underline hover:decoration-dashed"
+                    href="https://github.com/grandafrato/school_event_safety">
+                    "Source on Github"
+                </a>
             </footer>
         </main>
     }
@@ -47,7 +52,7 @@ fn IndexView(cx: Scope) -> impl IntoView {
                     counteract the risk, you need to add various countermeasures
                     to ensure a safe, fun time for everyone."</p>
             </Article>
-            <LinkButton href="/game">"Build Event"</LinkButton>
+            <LinkButton href="/game">"Start Event"</LinkButton>
         </ExpandingJumbotron>
     }
 }
