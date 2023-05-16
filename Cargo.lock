@@ -764,6 +764,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "leptos_meta"
+version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "43563beae31d109512d142f4b76a05ee103bd3583a9d9cbe1d6245c695cc5e89"
+dependencies = [
+ "cfg-if 1.0.0",
+ "indexmap",
+ "leptos",
+ "tracing",
+ "wasm-bindgen",
+ "web-sys",
+]
+
+[[package]]
 name = "leptos_reactive"
 version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1288,6 +1302,7 @@ version = "0.1.0"
 dependencies = [
  "lazy_static",
  "leptos",
+ "leptos_meta",
  "leptos_router",
  "wee_alloc",
 ]

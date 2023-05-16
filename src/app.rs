@@ -3,6 +3,7 @@ mod components;
 use crate::event::Event;
 use components::*;
 use leptos::*;
+use leptos_meta::Title;
 use leptos_router::*;
 
 #[component]
@@ -12,7 +13,7 @@ pub fn App(cx: Scope) -> impl IntoView {
 
     view! { cx,
         <main class="bg-orange-200 flex flex-col min-h-screen">
-            <Router>
+            <Router fallback=move |cx| view! { cx, <NotFound/> }.into_view(cx)>
                 <Routes>
                     <Route path="/" view=move |cx| {
                         view! { cx, <IndexView/> }
@@ -37,6 +38,7 @@ pub fn App(cx: Scope) -> impl IntoView {
 #[component]
 fn IndexView(cx: Scope) -> impl IntoView {
     view! { cx,
+        <Title text="School Safety Event"/>
         <ExpandingJumbotron>
             <SiteHeader>"Building an Event, Safely"</SiteHeader>
             <Article>
@@ -64,7 +66,15 @@ fn IndexView(cx: Scope) -> impl IntoView {
 #[component]
 fn GameView(cx: Scope) -> impl IntoView {
     let (event_name, set_event_name) = create_signal(cx, String::from(""));
+    let title_formatter = |text| {
+        if text == "" {
+            String::from("Set Event Name")
+        } else {
+            format!("Event: {}", text)
+        }
+    };
     view! { cx,
+        <Title text=move || event_name.get() formatter=title_formatter/>
         <ExpandingJumbotron>
             <Show
                 when=move || event_name.get() != ""
@@ -76,6 +86,17 @@ fn GameView(cx: Scope) -> impl IntoView {
                     {format!("Planning Event: {}", event_name.get())}
                 </SiteHeader>
             </Show>
+        </ExpandingJumbotron>
+    }
+}
+
+#[component]
+fn NotFound(cx: Scope) -> impl IntoView {
+    view! { cx,
+        <Title text="Page Not Found"/>
+        <ExpandingJumbotron>
+            <SiteHeader>"Page Not Found"</SiteHeader>
+            <LinkButton href="/">"Go Home"</LinkButton>
         </ExpandingJumbotron>
     }
 }
