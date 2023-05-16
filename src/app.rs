@@ -12,6 +12,7 @@ pub fn App(cx: Scope) -> impl IntoView {
     provide_context(cx, set_event);
 
     view! { cx,
+        <Title formatter=|text| format!("Planning for Safety {}", text)/>
         <main class="bg-orange-200 flex flex-col min-h-screen">
             <Router fallback=move |cx| view! { cx, <NotFound/> }.into_view(cx)>
                 <Routes>
@@ -38,7 +39,7 @@ pub fn App(cx: Scope) -> impl IntoView {
 #[component]
 fn IndexView(cx: Scope) -> impl IntoView {
     view! { cx,
-        <Title text="School Safety Event"/>
+        <Title text=""/>
         <ExpandingJumbotron>
             <SiteHeader>"Building an Event, Safely"</SiteHeader>
             <Article>
@@ -66,15 +67,16 @@ fn IndexView(cx: Scope) -> impl IntoView {
 #[component]
 fn GameView(cx: Scope) -> impl IntoView {
     let (event_name, set_event_name) = create_signal(cx, String::from(""));
-    let title_formatter = |text| {
-        if text == "" {
-            String::from("Set Event Name")
+    let title = move || {
+        let event_name = event_name.get();
+        if event_name == "" {
+            String::from("- Set Event Name")
         } else {
-            format!("Event: {}", text)
+            format!("- Event: {}", event_name)
         }
     };
     view! { cx,
-        <Title text=move || event_name.get() formatter=title_formatter/>
+        <Title text=title/>
         <ExpandingJumbotron>
             <Show
                 when=move || event_name.get() != ""
@@ -93,7 +95,7 @@ fn GameView(cx: Scope) -> impl IntoView {
 #[component]
 fn NotFound(cx: Scope) -> impl IntoView {
     view! { cx,
-        <Title text="Page Not Found"/>
+        <Title text="- Page Not Found"/>
         <ExpandingJumbotron>
             <SiteHeader>"Page Not Found"</SiteHeader>
             <LinkButton href="/">"Go Home"</LinkButton>
