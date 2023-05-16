@@ -1,5 +1,5 @@
-use leptos::*;
-use leptos_router::{AProps, A};
+use leptos::{ev::SubmitEvent, html::Input, *};
+use leptos_router::A;
 
 #[component]
 pub fn ExpandingJumbotron(cx: Scope, children: Children) -> impl IntoView {
@@ -38,5 +38,32 @@ pub fn Article(cx: Scope, children: Children) -> impl IntoView {
         <article class="prose prose-invert">
             {children(cx)}
         </article>
+    }
+}
+
+#[component]
+pub fn InitializingForm(cx: Scope, set_event_name: WriteSignal<String>) -> impl IntoView {
+    let input_element: NodeRef<Input> = create_node_ref(cx);
+    let on_submit = move |ev: SubmitEvent| {
+        // stop the page from reloading
+        ev.prevent_default();
+
+        let value = input_element.get().expect("<input> to exist").value();
+
+        set_event_name.set(value);
+    };
+
+    view! { cx,
+        <SiteHeader>"Set Event Name"</SiteHeader>
+        <form class="bg-orange-400 flex rounded-lg p-3 px-auto justify-center
+                     space-x-4 max-w-md mx-auto"
+            on:submit=on_submit>
+            <input class="text-black rounded-md" type="text"
+                node_ref=input_element/>
+            <button class="bg-[#845533] rounded-md px-3 py-2.5"
+                type="submit" value="Submit">
+                "Enter"
+            </button>
+        </form>
     }
 }

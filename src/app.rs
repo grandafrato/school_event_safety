@@ -11,10 +11,10 @@ pub fn App(cx: Scope) -> impl IntoView {
             <Router>
                 <Routes>
                     <Route path="/" view=move |cx| {
-                        view! { cx, <IndexView/>}
+                        view! { cx, <IndexView/> }
                     }/>
                     <Route path="/game" view=move |cx| {
-                        view! { cx, <GameView/>}
+                        view! { cx, <GameView/> }
                     }/>
                 </Routes>
             </Router>
@@ -59,9 +59,15 @@ fn IndexView(cx: Scope) -> impl IntoView {
 
 #[component]
 fn GameView(cx: Scope) -> impl IntoView {
+    let (event_name, set_event_name) = create_signal(cx, String::from(""));
     view! { cx,
         <ExpandingJumbotron>
-            <SiteHeader>"Game, it is."</SiteHeader>
+            <Show
+                when=move || event_name.get() != ""
+                fallback=move |cx| view! { cx, <InitializingForm set_event_name=set_event_name/> }
+            >
+                <SiteHeader>{format!("Planning Event: {}", event_name.get())}</SiteHeader>
+            </Show>
         </ExpandingJumbotron>
     }
 }
