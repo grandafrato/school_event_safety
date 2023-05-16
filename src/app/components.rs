@@ -60,7 +60,9 @@ pub fn InitializingForm(cx: Scope, set_event_name: WriteSignal<String>) -> impl 
             on:submit=on_submit>
             <input class="text-black rounded-md" type="text"
                 node_ref=input_element/>
-            <button class="bg-[#845533] rounded-md px-3 py-2.5"
+            <button class="bg-[#845533] rounded-md px-3 w-32 py-2.5
+                           drop-shadow-md hover:drop-shadow-sm
+                           hover:bg-orange-600"
                 type="submit" value="Submit">
                 "Enter"
             </button>

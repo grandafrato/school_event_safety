@@ -64,9 +64,13 @@ fn GameView(cx: Scope) -> impl IntoView {
         <ExpandingJumbotron>
             <Show
                 when=move || event_name.get() != ""
-                fallback=move |cx| view! { cx, <InitializingForm set_event_name=set_event_name/> }
+                fallback=move |cx| view! { cx,
+                    <InitializingForm set_event_name=set_event_name/>
+                }
             >
-                <SiteHeader>{format!("Planning Event: {}", event_name.get())}</SiteHeader>
+                <SiteHeader>
+                    {format!("Planning Event: {}", event_name.get())}
+                </SiteHeader>
             </Show>
         </ExpandingJumbotron>
     }
