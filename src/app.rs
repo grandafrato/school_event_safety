@@ -1,11 +1,15 @@
 mod components;
 
+use crate::event::Event;
 use components::*;
 use leptos::*;
 use leptos_router::*;
 
 #[component]
 pub fn App(cx: Scope) -> impl IntoView {
+    let (_event, set_event) = create_signal(cx, Event::default());
+    provide_context(cx, set_event);
+
     view! { cx,
         <main class="bg-orange-200 flex flex-col min-h-screen">
             <Router>

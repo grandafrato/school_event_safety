@@ -1,3 +1,4 @@
+use crate::event::Event;
 use leptos::{ev::SubmitEvent, html::Input, *};
 use leptos_router::A;
 
@@ -43,6 +44,8 @@ pub fn Article(cx: Scope, children: Children) -> impl IntoView {
 
 #[component]
 pub fn InitializingForm(cx: Scope, set_event_name: WriteSignal<String>) -> impl IntoView {
+    let set_event =
+        use_context::<WriteSignal<Event>>(cx).expect("There should be an event in scope.");
     let input_element: NodeRef<Input> = create_node_ref(cx);
     let on_submit = move |ev: SubmitEvent| {
         // stop the page from reloading
@@ -50,7 +53,8 @@ pub fn InitializingForm(cx: Scope, set_event_name: WriteSignal<String>) -> impl 
 
         let value = input_element.get().expect("<input> to exist").value();
 
-        set_event_name.set(value);
+        set_event_name.set(value.clone());
+        set_event.update(|event| event.set_name(value));
     };
 
     view! { cx,

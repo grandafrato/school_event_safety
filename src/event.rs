@@ -1,6 +1,13 @@
+#[derive(Default)]
 pub struct Event {
+    name: String,
     features: Vec<EventFeature>,
-    current_feature: usize,
+}
+
+impl Event {
+    pub fn set_name(&mut self, name: String) {
+        self.name = name;
+    }
 }
 
 pub struct EventFeature {
