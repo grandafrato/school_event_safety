@@ -3,7 +3,7 @@ mod components;
 use crate::event::Event;
 use components::*;
 use leptos::*;
-use leptos_meta::Title;
+use leptos_meta::{Body, Title};
 use leptos_router::*;
 
 #[component]
@@ -13,7 +13,8 @@ pub fn App(cx: Scope) -> impl IntoView {
 
     view! { cx,
         <Title formatter=|text| format!("Planning for Safety {}", text)/>
-        <main class="bg-orange-200 flex flex-col min-h-screen">
+        <Body class="bg-orange-200"/>
+        <main>
             <Router fallback=move |cx| view! { cx, <NotFound/> }.into_view(cx)>
                 <Routes>
                     <Route path="/" view=move |cx| {
