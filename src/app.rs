@@ -8,7 +8,8 @@ use leptos_router::*;
 
 #[component]
 pub fn App(cx: Scope) -> impl IntoView {
-    let (_event, set_event) = create_signal(cx, Event::default());
+    let (event, set_event) = create_signal(cx, Event::default());
+    provide_context(cx, event);
     provide_context(cx, set_event);
 
     view! { cx,
@@ -88,6 +89,7 @@ fn GameView(cx: Scope) -> impl IntoView {
                 <SiteHeader>
                     {format!("Planning Event: {}", event_name.get())}
                 </SiteHeader>
+                <AddEventFeatureCounters/>
             </Show>
         </ExpandingJumbotron>
     }

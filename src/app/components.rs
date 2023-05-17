@@ -73,3 +73,20 @@ pub fn InitializingForm(cx: Scope, set_event_name: WriteSignal<String>) -> impl 
         </form>
     }
 }
+
+#[component]
+pub fn AddEventFeatureCounters(cx: Scope) -> impl IntoView {
+    let event = use_context::<ReadSignal<Event>>(cx).expect("There should be an event in scope.");
+
+    let (event_feature_number, set_event_feature_number) = create_signal(cx, 0);
+    let get_event_feature = move || event.get().select_feature(event_feature_number.get());
+
+    view! { cx,
+        <Show
+            when=move || get_event_feature() != None
+            fallback=|cx| view! { cx, <SiteHeader>"Error: No Event Features"</SiteHeader> }
+        >
+            "Hello"
+        </Show>
+    }
+}
