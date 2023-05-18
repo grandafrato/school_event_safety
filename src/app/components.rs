@@ -1,6 +1,6 @@
 use crate::event::Event;
 use leptos::{ev::SubmitEvent, html::Input, *};
-use leptos_router::A;
+use leptos_router::{Redirect, A};
 
 #[component]
 pub fn ExpandingJumbotron(cx: Scope, children: Children) -> impl IntoView {
@@ -83,10 +83,15 @@ pub fn AddEventFeatureCounters(cx: Scope) -> impl IntoView {
 
     view! { cx,
         <Show
-            when=move || get_event_feature() != None
-            fallback=|cx| view! { cx, <SiteHeader>"Error: No Event Features"</SiteHeader> }
+            when=move || get_event_feature().is_none()
+            fallback=|cx| view! { cx, <FeatureCycle/> }
         >
-            "Hello"
+            <Redirect path="/result"/>
         </Show>
     }
+}
+
+#[component]
+fn FeatureCycle(cx: Scope) -> impl IntoView {
+    view! { cx, <SiteHeader>"Cycle"</SiteHeader> }
 }

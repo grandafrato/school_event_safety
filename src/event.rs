@@ -9,9 +9,14 @@ impl Event {
         self.name = name;
     }
 
-    pub fn select_feature(&self, index: usize) -> Option<EventFeature> {
+    pub fn select_feature(&self, _index: usize) -> Option<EventFeature> {
+        use CounterMeasure::*;
         // TODO: Actually grab the correct feature.
-        None
+        Some(EventFeature {
+            name: "Test",
+            counter_measure: None,
+            options: vec![Good("Good", 1), Bad("Bad", 1)],
+        })
     }
 }
 

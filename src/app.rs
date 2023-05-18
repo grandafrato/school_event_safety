@@ -24,6 +24,9 @@ pub fn App(cx: Scope) -> impl IntoView {
                     <Route path="/game" view=move |cx| {
                         view! { cx, <GameView/> }
                     }/>
+                    <Route path="/result" view=move |cx| {
+                        view! { cx, <ResultView/> }
+                    }/>
                 </Routes>
             </Router>
             <footer class="flex justify-between w-full px-2 pb-0.5 mt-auto fixed
@@ -91,6 +94,16 @@ fn GameView(cx: Scope) -> impl IntoView {
                 </SiteHeader>
                 <AddEventFeatureCounters/>
             </Show>
+        </ExpandingJumbotron>
+    }
+}
+
+#[component]
+fn ResultView(cx: Scope) -> impl IntoView {
+    view! { cx,
+        <ExpandingJumbotron>
+            <SiteHeader>"TODO: Add result tabulation."</SiteHeader>
+            <LinkButton href="/">"Go Home"</LinkButton>
         </ExpandingJumbotron>
     }
 }
