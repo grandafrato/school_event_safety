@@ -1,6 +1,7 @@
 use crate::event::Event;
-use leptos::{ev::SubmitEvent, html::Input, *};
-use leptos_router::{Redirect, A};
+use leptos::*;
+use leptos::{ev::SubmitEvent, html::Input};
+use leptos_router::*;
 
 #[component]
 pub fn ExpandingJumbotron(cx: Scope, children: Children) -> impl IntoView {
@@ -75,23 +76,15 @@ pub fn InitializingForm(cx: Scope, set_event_name: WriteSignal<String>) -> impl 
 }
 
 #[component]
-pub fn AddEventFeatureCounters(cx: Scope) -> impl IntoView {
-    let event = use_context::<ReadSignal<Event>>(cx).expect("There should be an event in scope.");
-
-    let (event_feature_number, set_event_feature_number) = create_signal(cx, 0);
-    let get_event_feature = move || event.get().select_feature(event_feature_number.get());
-
+pub fn EventFeatureInformation(cx: Scope) -> impl IntoView {
     view! { cx,
-        <Show
-            when=move || get_event_feature().is_none()
-            fallback=|cx| view! { cx, <FeatureCycle/> }
-        >
-            <Redirect path="/result"/>
-        </Show>
+       <SiteHeader>"TODO: Add Event Feature Information"</SiteHeader>
     }
 }
 
 #[component]
-fn FeatureCycle(cx: Scope) -> impl IntoView {
-    view! { cx, <SiteHeader>"Cycle"</SiteHeader> }
+pub fn AddEventFeatureCounters(cx: Scope) -> impl IntoView {
+    view! { cx,
+        <h1>"Who?"</h1>
+    }
 }

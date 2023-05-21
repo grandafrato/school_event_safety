@@ -29,7 +29,7 @@ pub fn App(cx: Scope) -> impl IntoView {
                     }/>
                 </Routes>
             </Router>
-            <footer class="flex justify-between w-full px-2 pb-0.5 mt-auto fixed
+            <footer class="flex justify-between w-full px-2 pb-0.5 fixed
                            bottom-0 left-0 opacity-75 text-xs">
                 <p>"Copyright © 2023 Lachlan Wilger."</p>
                 <a class="underline hover:decoration-dashed"
@@ -80,6 +80,21 @@ fn GameView(cx: Scope) -> impl IntoView {
             format!("- Event: {}", event_name)
         }
     };
+
+    let event = use_context::<ReadSignal<Event>>(cx).expect("There should be an event in scope.");
+    let query = use_query_map(cx);
+
+    let event_feature = move || {
+        event.get().select_feature(
+            query
+                .get()
+                .get("feature_index")
+                .unwrap_or(&String::from("0"))
+                .parse::<usize>()
+                .unwrap_or(0),
+        )
+    };
+
     view! { cx,
         <Title text=title/>
         <ExpandingJumbotron>
@@ -90,8 +105,9 @@ fn GameView(cx: Scope) -> impl IntoView {
                 }
             >
                 <SiteHeader>
-                    {format!("Planning Event: {}", event_name.get())}
+                    "Planning Event: " {event_name.get()}
                 </SiteHeader>
+                <EventFeatureInformation/>
                 <AddEventFeatureCounters/>
             </Show>
         </ExpandingJumbotron>
