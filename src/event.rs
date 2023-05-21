@@ -10,21 +10,31 @@ impl Event {
     }
 
     pub fn select_feature(&self, _index: usize) -> Option<EventFeature> {
-        use CounterMeasure::*;
         // TODO: Actually grab the correct feature.
         Some(EventFeature {
             name: "Test",
             counter_measure: None,
-            options: vec![Good("Good", 1), Bad("Bad", 1)],
+            options: vec![
+                CounterMeasure {
+                    name: "Good",
+                    score: 1,
+                    good_or_bad: Goodness::Good,
+                },
+                CounterMeasure {
+                    name: "Bad",
+                    score: 1,
+                    good_or_bad: Goodness::Bad,
+                },
+            ],
         })
     }
 }
 
 #[derive(Clone, PartialEq)]
 pub struct EventFeature {
-    name: &'static str,
+    pub name: &'static str,
     counter_measure: Option<CounterMeasure>,
-    options: Vec<CounterMeasure>,
+    pub options: Vec<CounterMeasure>,
 }
 
 type Score = u8;
@@ -32,9 +42,16 @@ type Score = u8;
 /// Represents a counter-measure option; the good varient adds points to the to
 /// the total score while the bad varient subtracts points.
 #[derive(Clone, PartialEq)]
-pub enum CounterMeasure {
-    Good(&'static str, Score),
-    Bad(&'static str, Score),
+pub struct CounterMeasure {
+    pub name: &'static str,
+    score: Score,
+    good_or_bad: Goodness,
+}
+
+#[derive(PartialEq, Clone)]
+pub enum Goodness {
+    Good,
+    Bad,
 }
 
 pub fn calculate_score(event: &Event) -> u8 {

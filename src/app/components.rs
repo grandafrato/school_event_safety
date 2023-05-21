@@ -1,4 +1,4 @@
-use crate::event::Event;
+use crate::event::{CounterMeasure, Event, EventFeature};
 use leptos::*;
 use leptos::{ev::SubmitEvent, html::Input};
 use leptos_router::*;
@@ -28,7 +28,7 @@ pub fn LinkButton(cx: Scope, href: &'static str, children: Children) -> impl Int
 #[component]
 pub fn SiteHeader(cx: Scope, children: Children) -> impl IntoView {
     view! { cx,
-        <h1 class="text-center text-2xl font-bold mb-6">
+        <h1 class="text-center capitalize text-2xl font-bold mb-6">
             {children(cx)}
         </h1>
     }
@@ -60,7 +60,7 @@ pub fn InitializingForm(cx: Scope, set_event_name: WriteSignal<String>) -> impl 
 
     view! { cx,
         <SiteHeader>"Set Event Name"</SiteHeader>
-        <form class="bg-orange-400 flex rounded-lg p-3 px-auto justify-center
+        <form class="bg-orange-400 flex rounded-lg py-3 px-auto justify-center
                      space-x-4 max-w-md mx-auto"
             on:submit=on_submit>
             <input class="text-black rounded-md" type="text"
@@ -75,16 +75,40 @@ pub fn InitializingForm(cx: Scope, set_event_name: WriteSignal<String>) -> impl 
     }
 }
 
+/// Shows the information related to any event feature, and if there is no
+/// event given it redirects to the results page.
 #[component]
-pub fn EventFeatureInformation(cx: Scope) -> impl IntoView {
-    view! { cx,
-       <SiteHeader>"TODO: Add Event Feature Information"</SiteHeader>
+pub fn EventFeatureInformation(cx: Scope, event_feature: Option<EventFeature>) -> impl IntoView {
+    if let Some(event_feature) = event_feature {
+        view! { cx,
+            <div class="bg-orange-400 p-3 rounded-md"><p>{event_feature.name}</p></div>
+        }
+        .into_view(cx)
+    } else {
+        view! { cx, <Redirect path="/result"/> }.into_view(cx)
     }
 }
 
 #[component]
-pub fn AddEventFeatureCounters(cx: Scope) -> impl IntoView {
-    view! { cx,
-        <h1>"Who?"</h1>
+pub fn SelectCounterFeature(cx: Scope, event_feature: Option<EventFeature>) -> impl IntoView {
+    if let Some(event_feature) = event_feature {
+        Some(view! { cx,
+            <div class="flex flex-row items-center justify-center gap-5 my-3">
+                <For each=move || event_feature.options.clone() key=|opt| opt.name view=move |cx, opt: CounterMeasure| {
+                    view! {
+                        cx,
+                        <button class="bg-[#ffac44] text-black px-3 py-2.5
+                                       rounded-md w-32 block text-center
+                                       hover:bg-orange-400 drop-shadow-md
+                                       hover:drop-shadow-sm">
+                            {opt.name}
+                        </button>
+                    }
+                }
+                />
+            </div>
+        })
+    } else {
+        None
     }
 }

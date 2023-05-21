@@ -107,8 +107,8 @@ fn GameView(cx: Scope) -> impl IntoView {
                 <SiteHeader>
                     "Planning Event: " {event_name.get()}
                 </SiteHeader>
-                <EventFeatureInformation/>
-                <AddEventFeatureCounters/>
+                <EventFeatureInformation event_feature={event_feature()}/>
+                <SelectCounterFeature event_feature={event_feature()}/>
             </Show>
         </ExpandingJumbotron>
     }
