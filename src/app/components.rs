@@ -78,12 +78,28 @@ pub fn InitializingForm(cx: Scope, set_event_name: WriteSignal<String>) -> impl 
 #[component]
 pub fn EventFeatureInformation(cx: Scope, event_feature: EventFeature) -> impl IntoView {
     view! { cx,
-        <div class="bg-orange-400 p-3 rounded-md"><p>{event_feature.name}</p></div>
+        <div class="bg-orange-400 p-3 rounded-md text-black">
+            <h2 class="text-2xl text-center">"Feature: " {event_feature.name}</h2>
+            <h3 class="text-xl">"Added Counter Measures:"</h3>
+            <ol>
+                <For each=move || event_feature.selected_counter_measures.clone()
+                    key=|cm| cm.name view=move |cx, opt: CounterMeasure| {
+                        view! { cx,
+                            <li>{opt.name}</li>
+                        }
+                    }
+                />
+            </ol>
+        </div>
     }
 }
 
 #[component]
-pub fn SelectCounterFeature(cx: Scope, index: usize, event_feature: EventFeature) -> impl IntoView {
+pub fn SelectCounterFeature(
+    cx: Scope,
+    feature_index: usize,
+    event_feature: EventFeature,
+) -> impl IntoView {
     view! { cx,
         <div class="flex flex-row justify-center gap-5 my-3">
             <For each=move || event_feature.options.clone()

@@ -110,7 +110,7 @@ fn GameView(cx: Scope) -> impl IntoView {
                             "Planning Event: " {event_name.get()}
                         </SiteHeader>
                         <EventFeatureInformation event_feature=event_feature.clone()/>
-                        <SelectCounterFeature index={event_feature_index()} event_feature=event_feature/>
+                        <SelectCounterFeature feature_index={event_feature_index()} event_feature=event_feature/>
                     }.into_view(cx)
                 } else {
                     view! { cx, <Redirect path="/result"/>}.into_view(cx)
