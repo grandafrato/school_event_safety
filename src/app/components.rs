@@ -78,7 +78,7 @@ pub fn InitializingForm(cx: Scope, set_event_name: WriteSignal<String>) -> impl 
 #[component]
 pub fn EventFeatureInformation(cx: Scope, event_feature: EventFeature) -> impl IntoView {
     view! { cx,
-        <div class="bg-orange-400 p-3 rounded-md text-black">
+        <div class="bg-orange-500 p-3 rounded-md text-black">
             <h2 class="text-2xl text-center">"Feature: " {event_feature.name}</h2>
             <h3 class="text-xl">"Added Counter Measures:"</h3>
             <ol>
@@ -100,7 +100,14 @@ pub fn SelectCounterFeature(
     feature_index: usize,
     event_feature: EventFeature,
 ) -> impl IntoView {
+    let event = use_context::<WriteSignal<Event>>(cx).expect("event to be in scope");
+
+    let update_event = move |option| {
+        event.update(|ev| ev.toggle_selected_counter_measure_option(feature_index, option));
+    };
+
     view! { cx,
+        <h2 class="text-2xl my-3 text-bold text-center">"Availible Countermeasures"</h2>
         <div class="flex flex-row justify-center gap-5 my-3">
             <For each=move || event_feature.options.clone()
                 key=|opt| opt.name view=move |cx, opt: CounterMeasure| {
@@ -108,7 +115,8 @@ pub fn SelectCounterFeature(
                         <button class="bg-[#ffac44] text-black px-3 py-2.5
                                            rounded-md w-32 block text-center
                                            hover:bg-orange-400 drop-shadow-md
-                                           hover:drop-shadow-sm">
+                                           hover:drop-shadow-sm"
+                            on:click=move |_| update_event(opt)>
                             {opt.name}
                         </button>
                     }

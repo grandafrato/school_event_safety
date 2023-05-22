@@ -74,7 +74,7 @@ fn GameView(cx: Scope) -> impl IntoView {
     let (event_name, set_event_name) = create_signal(cx, String::from(""));
     let title = move || {
         let event_name = event_name.get();
-        if event_name == "" {
+        if event_name.is_empty() {
             String::from("- Set Event Name")
         } else {
             format!("- Event: {}", event_name)
