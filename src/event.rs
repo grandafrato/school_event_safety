@@ -58,7 +58,7 @@ impl Default for Event {
                             good_or_bad: Goodness::Good,
                         },
                         CounterMeasure {
-                            name: "Gooder",
+                            name: "Goodder",
                             score: 2,
                             good_or_bad: Goodness::Good,
                         },

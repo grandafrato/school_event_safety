@@ -60,8 +60,8 @@ pub fn InitializingForm(cx: Scope, set_event_name: WriteSignal<String>) -> impl 
 
     view! { cx,
         <SiteHeader>"Set Event Name"</SiteHeader>
-        <form class="bg-orange-400 flex rounded-lg py-3 px-auto justify-center
-                     space-x-4 max-w-md mx-auto"
+        <form class="bg-orange-400 flex rounded-lg p-3 justify-center space-x-4
+                     max-w-md mx-auto"
             on:submit=on_submit>
             <input class="text-black rounded-md" type="text"
                 node_ref=input_element/>
@@ -81,7 +81,7 @@ pub fn EventFeatureInformation(cx: Scope, event_feature: EventFeature) -> impl I
         <div class="bg-orange-500 p-3 rounded-md text-black">
             <h2 class="text-2xl text-center">"Feature: " {event_feature.name}</h2>
             <h3 class="text-xl">"Added Counter Measures:"</h3>
-            <ol>
+            <ul class="divide-y divide-solid divide-current">
                 <For each=move || event_feature.selected_counter_measures.clone()
                     key=|cm| cm.name view=move |cx, opt: CounterMeasure| {
                         view! { cx,
@@ -89,7 +89,7 @@ pub fn EventFeatureInformation(cx: Scope, event_feature: EventFeature) -> impl I
                         }
                     }
                 />
-            </ol>
+            </ul>
         </div>
     }
 }
@@ -107,8 +107,8 @@ pub fn SelectCounterFeature(
     };
 
     view! { cx,
-        <h2 class="text-2xl my-3 text-bold text-center">"Availible Countermeasures"</h2>
-        <div class="flex flex-row justify-center gap-5 my-3">
+        <h2 class="text-2xl my-3 text-bold text-center">"Countermeasure Toggles"</h2>
+        <div class="flex flex-row flex-wrap justify-center gap-5 my-3">
             <For each=move || event_feature.options.clone()
                 key=|opt| opt.name view=move |cx, opt: CounterMeasure| {
                     view! { cx,
@@ -123,5 +123,19 @@ pub fn SelectCounterFeature(
                 }
             />
         </div>
+    }
+}
+
+#[component]
+pub fn NextStepButton(cx: Scope, set_index: WriteSignal<usize>) -> impl IntoView {
+    let update_index = move |_| set_index.update(|index| *index += 1);
+
+    view! { cx,
+        <button class="bg-[#ffac44] text-black py-2.5 mx-auto rounded-md
+                       w-32 block text-center hover:bg-orange-400 drop-shadow-md
+                       hover:drop-shadow-sm flex flex-row justify-center"
+            on:click=update_index>
+            <p>"Next"</p>
+        </button>
     }
 }

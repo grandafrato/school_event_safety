@@ -82,18 +82,10 @@ fn GameView(cx: Scope) -> impl IntoView {
     };
 
     let event = use_context::<ReadSignal<Event>>(cx).expect("There should be an event in scope.");
-    let query = use_query_map(cx);
 
-    let event_feature_index = move || {
-        query
-            .get()
-            .get("feature_index")
-            .unwrap_or(&String::from("0"))
-            .parse::<usize>()
-            .unwrap_or(0)
-    };
+    let (event_feature_index, set_event_feature_index) = create_signal(cx, 0);
 
-    let event_feature = move || event.get().select_feature(event_feature_index());
+    let event_feature = move || event.get().select_feature(event_feature_index.get());
 
     view! { cx,
         <Title text=title/>
@@ -104,13 +96,15 @@ fn GameView(cx: Scope) -> impl IntoView {
                     <InitializingForm set_event_name=set_event_name/>
                 }
             >
-                {move || if let Some(event_feature) = event_feature() {
+                {if let Some(event_feature) = event_feature() {
                     view! { cx,
                         <SiteHeader>
                             "Planning Event: " {event_name.get()}
                         </SiteHeader>
                         <EventFeatureInformation event_feature=event_feature.clone()/>
-                        <SelectCounterFeature feature_index={event_feature_index()} event_feature=event_feature/>
+                        <SelectCounterFeature feature_index={event_feature_index.get()} event_feature=event_feature/>
+                        <hr class="my-3 opacity-50 border-dashed"/>
+                        <NextStepButton set_index=set_event_feature_index/>
                     }.into_view(cx)
                 } else {
                     view! { cx, <Redirect path="/result"/>}.into_view(cx)
