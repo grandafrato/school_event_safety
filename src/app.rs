@@ -1,6 +1,6 @@
 mod components;
 
-use crate::event::Event;
+use crate::event::{calculate_score, Event};
 use components::*;
 use leptos::*;
 use leptos_meta::{Body, Title};
@@ -43,6 +43,12 @@ pub fn App(cx: Scope) -> impl IntoView {
 
 #[component]
 fn IndexView(cx: Scope) -> impl IntoView {
+    // Clears out the state if you return to the index page from the score
+    // tabulation.
+    use_context::<WriteSignal<Event>>(cx)
+        .expect("event to be in scope")
+        .set(Event::default());
+
     view! { cx,
         <Title text=""/>
         <ExpandingJumbotron>
@@ -116,9 +122,11 @@ fn GameView(cx: Scope) -> impl IntoView {
 
 #[component]
 fn ResultView(cx: Scope) -> impl IntoView {
+    let event = use_context::<ReadSignal<Event>>(cx).expect("event to be in scope");
+
     view! { cx,
         <ExpandingJumbotron>
-            <SiteHeader>"TODO: Add result tabulation."</SiteHeader>
+            <SiteHeader>"Score: " {calculate_score(&event.get())}</SiteHeader>
             <LinkButton href="/">"Go Home"</LinkButton>
         </ExpandingJumbotron>
     }

@@ -86,7 +86,7 @@ pub struct EventFeature {
     pub options: Vec<CounterMeasure>,
 }
 
-type Score = u8;
+type Score = i32;
 
 /// Represents a counter-measure option; the good varient adds points to the to
 /// the total score while the bad varient subtracts points.
@@ -103,6 +103,17 @@ pub enum Goodness {
     Bad,
 }
 
-pub fn calculate_score(event: &Event) -> u8 {
-    todo!()
+pub fn calculate_score(event: &Event) -> Score {
+    let mut score = 0;
+
+    for feature in event.features.iter() {
+        for choice in feature.selected_counter_measures.iter() {
+            match choice.good_or_bad {
+                Goodness::Good => score += choice.score,
+                Goodness::Bad => score -= choice.score,
+            }
+        }
+    }
+
+    score
 }
