@@ -84,16 +84,16 @@ fn GameView(cx: Scope) -> impl IntoView {
     let event = use_context::<ReadSignal<Event>>(cx).expect("There should be an event in scope.");
     let query = use_query_map(cx);
 
-    let event_feature = move || {
-        event.get().select_feature(
-            query
-                .get()
-                .get("feature_index")
-                .unwrap_or(&String::from("0"))
-                .parse::<usize>()
-                .unwrap_or(0),
-        )
+    let event_feature_index = move || {
+        query
+            .get()
+            .get("feature_index")
+            .unwrap_or(&String::from("0"))
+            .parse::<usize>()
+            .unwrap_or(0)
     };
+
+    let event_feature = move || event.get().select_feature(event_feature_index());
 
     view! { cx,
         <Title text=title/>
@@ -104,11 +104,17 @@ fn GameView(cx: Scope) -> impl IntoView {
                     <InitializingForm set_event_name=set_event_name/>
                 }
             >
-                <SiteHeader>
-                    "Planning Event: " {event_name.get()}
-                </SiteHeader>
-                <EventFeatureInformation event_feature={event_feature()}/>
-                <SelectCounterFeature event_feature={event_feature()}/>
+                {move || if let Some(event_feature) = event_feature() {
+                    view! { cx,
+                        <SiteHeader>
+                            "Planning Event: " {event_name.get()}
+                        </SiteHeader>
+                        <EventFeatureInformation event_feature=event_feature.clone()/>
+                        <SelectCounterFeature index={event_feature_index()} event_feature=event_feature/>
+                    }.into_view(cx)
+                } else {
+                    view! { cx, <Redirect path="/result"/>}.into_view(cx)
+                }}
             </Show>
         </ExpandingJumbotron>
     }

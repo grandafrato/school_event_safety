@@ -75,40 +75,29 @@ pub fn InitializingForm(cx: Scope, set_event_name: WriteSignal<String>) -> impl 
     }
 }
 
-/// Shows the information related to any event feature, and if there is no
-/// event given it redirects to the results page.
 #[component]
-pub fn EventFeatureInformation(cx: Scope, event_feature: Option<EventFeature>) -> impl IntoView {
-    if let Some(event_feature) = event_feature {
-        view! { cx,
-            <div class="bg-orange-400 p-3 rounded-md"><p>{event_feature.name}</p></div>
-        }
-        .into_view(cx)
-    } else {
-        view! { cx, <Redirect path="/result"/> }.into_view(cx)
+pub fn EventFeatureInformation(cx: Scope, event_feature: EventFeature) -> impl IntoView {
+    view! { cx,
+        <div class="bg-orange-400 p-3 rounded-md"><p>{event_feature.name}</p></div>
     }
 }
 
 #[component]
-pub fn SelectCounterFeature(cx: Scope, event_feature: Option<EventFeature>) -> impl IntoView {
-    if let Some(event_feature) = event_feature {
-        Some(view! { cx,
-            <div class="flex flex-row items-center justify-center gap-5 my-3">
-                <For each=move || event_feature.options.clone() key=|opt| opt.name view=move |cx, opt: CounterMeasure| {
-                    view! {
-                        cx,
+pub fn SelectCounterFeature(cx: Scope, index: usize, event_feature: EventFeature) -> impl IntoView {
+    view! { cx,
+        <div class="flex flex-row justify-center gap-5 my-3">
+            <For each=move || event_feature.options.clone()
+                key=|opt| opt.name view=move |cx, opt: CounterMeasure| {
+                    view! { cx,
                         <button class="bg-[#ffac44] text-black px-3 py-2.5
-                                       rounded-md w-32 block text-center
-                                       hover:bg-orange-400 drop-shadow-md
-                                       hover:drop-shadow-sm">
+                                           rounded-md w-32 block text-center
+                                           hover:bg-orange-400 drop-shadow-md
+                                           hover:drop-shadow-sm">
                             {opt.name}
                         </button>
                     }
                 }
-                />
-            </div>
-        })
-    } else {
-        None
+            />
+        </div>
     }
 }

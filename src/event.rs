@@ -28,6 +28,15 @@ impl Event {
             ],
         })
     }
+
+    pub fn update_selected_counter_measure_option(
+        &mut self,
+        feature_index: usize,
+        option: CounterMeasure,
+    ) {
+        let feature = self.features.get_mut(feature_index).unwrap();
+        feature.counter_measure = Some(option);
+    }
 }
 
 #[derive(Clone, PartialEq)]
